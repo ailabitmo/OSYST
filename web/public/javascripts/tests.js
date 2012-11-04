@@ -29,6 +29,26 @@ e3soos.testcase = (function() {
         $('#schemas .schema input:checked').parent().detach();
     },
 
+    removeTestcase = function (testcase) {
+        var ids = {};
+        testcase.each(function(index) {
+            ids['testcase_ids[' +index +']'] = $(this).children('.testcase-id').text();
+        });
+        $.ajax({
+            url: '/tests/delete',
+            type: 'DELETE',
+            dataType: 'json',
+            data: ids,
+            success: function() {
+                testcase.detach();
+            },
+            error: function() {
+                //FIXME
+                console.log("error");
+            }
+        });
+    },
+
     readFields = function() {
         fields['testcase.name'] = $('#tc-name').val();
         fields['testcase.classes.j'] = $('#gc-J').val();
@@ -43,31 +63,55 @@ e3soos.testcase = (function() {
         });
     },
 
-    sendData = function() {
+    createTestcase = function() {
+        changeStatus("saving");
+        readFields();
         $.ajax({
             url: '/tests/add',
             type: 'POST',
             dataType: 'json',
             data: fields,
-            success: function() {
-                console.log("saved");
+            success: function(data) {
+                changeStatus("saved");
+                setTimeout(function () {
+                    dialog.modal('hide');
+                }, 1000);
+                fields['testcase.id'] = data['testcase_id'];
+                $('.testcases').append(
+                    '<tr class="testcase">'
+                    + '<td><input type="checkbox"/></td>'
+                    + '<td>' + fields['testcase.id'] + '</td>'
+                    + '<td>' + fields['testcase.name'] + '</td>'
+                    + '<td class="testcase-status">Not started</td>'
+                    + '</tr>'
+                    );
             },
             error: function() {
-                console.log("error");
+                changeStatus("error");
+                setTimeout(function () {
+                    //FIXME
+                    }, 1000);
             }
         });
     },
 
-    save = function() {
-        dialog.modal('hide');
-        readFields();
-        console.log(fields);
-        sendData();
+    changeStatus = function(status) {
+        var help = $('#testcase-status');
+        if(status == undefined) {
+            help.html('All form fields are required.');
+        } else if(status == "saving") {
+            help.html('<span class="label label-info">Saving...</span>');
+        } else if(status == "saved") {
+            help.html('<span class="label label-success"><i class="icon-ok icon-white"></i> Saved</span>');
+        } else if(status == "error") {
+            help.html('<span class="label label-important"><i class="icon-warning-sign icon-white"></i> Error! Please, reload the page and try again.</span>');
+        }
     };
 
     return {
         initialize: function() {
             $('#create-testcase').click(function() {
+                changeStatus();
                 dialog.modal('show');
             });
 
@@ -86,9 +130,14 @@ e3soos.testcase = (function() {
             });
 
             $('#save-button').click(function(event) {
-                save();
+                createTestcase();
                 event.preventDefault();
-            })
+            });
+
+            $('#remove-testcase').click(function(event) {
+                removeTestcase($('.testcases .testcase input:checked').parent().parent());
+                event.preventDefault();
+            });
         }
     };
 })();

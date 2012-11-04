@@ -10,14 +10,14 @@
 
 #{set title: 'Knowledge Base Tests'/}
 
-#{if !testcases.empty}
 <h1>Test cases</h1>
-#{/if}
-#{else}
-<h1>No test cases.</h1>
-#{/else}
+
 <div id="testcase-actions">
-    <button id="create-testcase">Create a test case</button>
+    <h3>Actions:</h3>
+    <button id="create-testcase" class="btn">Create</button>
+    <button id="edit-testcase" class="btn">Edit</button>
+    <button id="remove-testcase" class="btn btn-danger">Remove</button>
+    <button id="run-all-testcases" class="btn btn-primary">Run All</button>
 </div>
 
 <div id="testcase-form" class="modal hide fade">
@@ -26,7 +26,7 @@
         <h3 id="testcase-form-label">Create a test case</h3>
     </div>
     <div class="modal-body">
-        <span class="help-block">All form fields are required.</span>
+        <span id="testcase-status" class="help-block">All form fields are required.</span>
         <form>
             <fieldset>
                 <label for="tc-name">Name</label>
@@ -62,8 +62,21 @@
     </div>
 </div>
 
-<ul>
+<table class="table table-striped">
+    <caption>Total test cases: ${testcases.size}</caption>
+    <thead>
+        <tr>
+            <th></th><th>#</th><th>Name</th><th>Status</th>
+        </tr>
+    </thead>
+    <tbody class="testcases">
     #{list items: testcases, as:'testcase'}
-    <li>${testcase.name}</li>
+    <tr class="testcase">
+        <td><input type="checkbox"/></td>
+        <td class="testcase-id">${testcase.id}</td>
+        <td>${testcase.name}</td>
+        <td class="testcase-status">Not started</td>
+    </tr>
     #{/list}
-</ul>
+    </tbody>
+</table>
