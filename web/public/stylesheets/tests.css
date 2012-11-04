@@ -18,3 +18,7 @@ input.input-micro {
     margin: 0 5px 0 5px;
     vertical-align: baseline;
 }
+
+.schema span {
+    vertical-align: baseline;
+}

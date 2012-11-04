@@ -27,6 +27,42 @@ e3soos.testcase = (function() {
 
     removeSchema = function() {
         $('#schemas .schema input:checked').parent().detach();
+    },
+
+    readFields = function() {
+        fields['testcase.name'] = $('#tc-name').val();
+        fields['testcase.classes.j'] = $('#gc-J').val();
+        fields['testcase.classes.f'] = $('#gc-F').val();
+        fields['testcase.classes.q'] = $('#gc-Q').val();
+        fields['testcase.classes.d'] = $('#gc-D').val();
+        fields['testcase.classes.w'] = $('#gc-W').val();
+        fields['testcase.classes.l'] = $('#gc-L').val();
+        fields['testcase.classes.s'] = $('#gc-S').val();
+        $('#schemas .schema input:text').each(function(index) {
+            fields['testcase.schemas[' + index + '].code'] = $(this).val();
+        });
+    },
+
+    sendData = function() {
+        $.ajax({
+            url: '/tests/add',
+            type: 'POST',
+            dataType: 'json',
+            data: fields,
+            success: function() {
+                console.log("saved");
+            },
+            error: function() {
+                console.log("error");
+            }
+        });
+    },
+
+    save = function() {
+        dialog.modal('hide');
+        readFields();
+        console.log(fields);
+        sendData();
     };
 
     return {
@@ -48,6 +84,11 @@ e3soos.testcase = (function() {
                 removeSchema();
                 event.preventDefault();
             });
+
+            $('#save-button').click(function(event) {
+                save();
+                event.preventDefault();
+            })
         }
     };
 })();

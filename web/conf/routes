@@ -20,6 +20,7 @@ POST    /schemes                                Application.saveScheme
 DELETE  /scheme/{<[0-9]+>id}                    Application.deleteScheme
 GET     /synthesis/print                        Application.printSynthesis
 GET     /tests                                  Tests.index
+POST    /tests/add                              Tests.add
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
