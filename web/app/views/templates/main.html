@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>OSYST - #{get 'title'/}</title>
+        <meta charset="utf-8"/>
+        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.ico'}">
+
+        <!-- CSS stylesheets -->
+        #{stylesheet 'bootstrap.min.css' /}
+        #{stylesheet 'bootstrap-responsive.min.css' /}
+        #{stylesheet 'main.css' /}
+        #{get 'main-styles'/}
+
+    </head>
+    <body>
+        #{doLayout /}
+
+        <!-- Javascript scripts -->
+        #{script 'jquery/jquery-1.8.2.js'/}
+        #{script 'bootstrap/bootstrap.js'/}
+        #{get 'main-scripts'/}
+
+    </body>
+</html>

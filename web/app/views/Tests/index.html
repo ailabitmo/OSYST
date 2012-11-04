@@ -1,0 +1,69 @@
+#{extends 'templates/secure-page.html' /}
+
+#{set 'secure-page-styles'}
+#{stylesheet 'tests.css'/}
+#{/set}
+
+#{set 'secure-page-scripts'}
+#{script 'tests.js'/}
+#{/set}
+
+#{set title: 'Knowledge Base Tests'/}
+
+#{if !testcases.empty}
+<h1>Test cases</h1>
+#{/if}
+#{else}
+<h1>No test cases.</h1>
+#{/else}
+<div id="testcase-actions">
+    <button id="create-testcase">Create a test case</button>
+</div>
+
+<div id="testcase-form" class="modal hide fade">
+    <div class="modal-header" role="dialog" aria-labelledby="testcase-form-label" aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="testcase-form-label">Create a test case</h3>
+    </div>
+    <div class="modal-body">
+        <span class="help-block">All form fields are required.</span>
+        <form>
+            <fieldset>
+                <label for="tc-name">Name</label>
+                <input name="tc-name" id="tc-name" type="text" class="input-block-level" placeholder="The name of a test case..."/>
+            </fieldset>
+            <fieldset>
+                <legend>Input: general characteristics</legend>
+                <div class="testcase-form-row">
+                    <label>J</label><input name="gc-J" id="gc-J" type="number" value="0" class="input-micro"/>
+                    <label>F</label><input name="gc-F" id="gc-F" type="number" value="0" class="input-micro"/>
+                    <label>Q</label><input name="gc-Q" id="gc-Q" type="number" value="0" class="input-micro"/>
+                    <label>D</label><input name="gc-D" id="gc-D" type="number" value="0" class="input-micro"/>
+                </div>
+                <div class="testcase-form-row">
+                    <label>W</label><input name="gc-W" id="gc-W" type="number" value="0" class="input-micro"/>
+                    <label>L</label><input name="gc-L" id="gc-L" type="number" value="0" class="input-micro"/>
+                    <label>S</label><input name="gc-S" id="gc-S" type="number" value="0" class="input-micro"/>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Expected schemas</legend>
+                <div>
+                    <button id="add-button">Add</button>
+                    <button id="remove-button">Remove</button>
+                </div>
+                <div id="schemas"></div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer form-actions">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Save changes</button>
+    </div>
+</div>
+
+<ul>
+    #{list items: testcases, as:'testcase'}
+    <li>${testcase.name}</li>
+    #{/list}
+</ul>

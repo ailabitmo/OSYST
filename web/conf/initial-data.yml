@@ -1,0 +1,14 @@
+Role(admin):
+  role: "admin"
+
+User(user):
+  email: admin@localhost.com
+  password: secret
+  fullName: "Admin Admin"
+  roles: [admin]
+
+User(tester):
+  email: tester@localhost.com
+  password: secret
+  fullName: "Tester Test"
+  roles: []

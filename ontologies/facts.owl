@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.osyst.pro/ontologies/facts#"
+     xml:base="http://www.osyst.pro/ontologies/facts"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.osyst.pro/ontologies/facts"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#hasFirstSurface -->
+
+    <owl:ObjectProperty rdf:about="http://www.osyst.pro/ontologies/facts#hasFirstSurface"/>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#hasSecondSurface -->
+
+    <owl:ObjectProperty rdf:about="http://www.osyst.pro/ontologies/facts#hasSecondSurface"/>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#hasType -->
+
+    <owl:ObjectProperty rdf:about="http://www.osyst.pro/ontologies/facts#hasType">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.osyst.pro/ontologies/facts#Element"/>
+        <rdfs:range rdf:resource="http://www.osyst.pro/ontologies/facts#ElementType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#Element -->
+
+    <owl:Class rdf:about="http://www.osyst.pro/ontologies/facts#Element">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.osyst.pro/ontologies/facts#hasType"/>
+                <owl:onClass rdf:resource="http://www.osyst.pro/ontologies/facts#ElementType"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#ElementType -->
+
+    <owl:Class rdf:about="http://www.osyst.pro/ontologies/facts#ElementType">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.osyst.pro/ontologies/facts#Basic"/>
+                    <rdf:Description rdf:about="http://www.osyst.pro/ontologies/facts#Fast"/>
+                    <rdf:Description rdf:about="http://www.osyst.pro/ontologies/facts#WideAngular"/>
+                    <rdf:Description rdf:about="http://www.osyst.pro/ontologies/facts#Correction"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#Schema -->
+
+    <owl:Class rdf:about="http://www.osyst.pro/ontologies/facts#Schema"/>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#Surface -->
+
+    <owl:Class rdf:about="http://www.osyst.pro/ontologies/facts#Surface"/>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#SurfaceType -->
+
+    <owl:Class rdf:about="http://www.osyst.pro/ontologies/facts#SurfaceType">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.osyst.pro/ontologies/facts#O"/>
+                    <rdf:Description rdf:about="http://www.osyst.pro/ontologies/facts#A"/>
+                    <rdf:Description rdf:about="http://www.osyst.pro/ontologies/facts#P"/>
+                    <rdf:Description rdf:about="http://www.osyst.pro/ontologies/facts#F"/>
+                    <rdf:Description rdf:about="http://www.osyst.pro/ontologies/facts#I"/>
+                    <rdf:Description rdf:about="http://www.osyst.pro/ontologies/facts#V"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#A -->
+
+    <owl:NamedIndividual rdf:about="http://www.osyst.pro/ontologies/facts#A">
+        <rdf:type rdf:resource="http://www.osyst.pro/ontologies/facts#SurfaceType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#Basic -->
+
+    <owl:NamedIndividual rdf:about="http://www.osyst.pro/ontologies/facts#Basic">
+        <rdf:type rdf:resource="http://www.osyst.pro/ontologies/facts#ElementType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#Correction -->
+
+    <owl:NamedIndividual rdf:about="http://www.osyst.pro/ontologies/facts#Correction">
+        <rdf:type rdf:resource="http://www.osyst.pro/ontologies/facts#ElementType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#F -->
+
+    <owl:NamedIndividual rdf:about="http://www.osyst.pro/ontologies/facts#F">
+        <rdf:type rdf:resource="http://www.osyst.pro/ontologies/facts#SurfaceType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#Fast -->
+
+    <owl:NamedIndividual rdf:about="http://www.osyst.pro/ontologies/facts#Fast">
+        <rdf:type rdf:resource="http://www.osyst.pro/ontologies/facts#ElementType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#I -->
+
+    <owl:NamedIndividual rdf:about="http://www.osyst.pro/ontologies/facts#I">
+        <rdf:type rdf:resource="http://www.osyst.pro/ontologies/facts#SurfaceType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#O -->
+
+    <owl:NamedIndividual rdf:about="http://www.osyst.pro/ontologies/facts#O">
+        <rdf:type rdf:resource="http://www.osyst.pro/ontologies/facts#SurfaceType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#P -->
+
+    <owl:NamedIndividual rdf:about="http://www.osyst.pro/ontologies/facts#P">
+        <rdf:type rdf:resource="http://www.osyst.pro/ontologies/facts#SurfaceType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#V -->
+
+    <owl:NamedIndividual rdf:about="http://www.osyst.pro/ontologies/facts#V">
+        <rdf:type rdf:resource="http://www.osyst.pro/ontologies/facts#SurfaceType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.osyst.pro/ontologies/facts#WideAngular -->
+
+    <owl:NamedIndividual rdf:about="http://www.osyst.pro/ontologies/facts#WideAngular">
+        <rdf:type rdf:resource="http://www.osyst.pro/ontologies/facts#ElementType"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.3.1957) http://owlapi.sourceforge.net -->
+

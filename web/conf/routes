@@ -1,0 +1,28 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Import modules
+*       /                                       module:secure
+*       /admin                                  module:crud
+
+# Public pages
+GET     /                                       Index.index
+GET     /about                                  Index.about
+GET     /contact                                Index.contact
+
+# Secure pages
+GET     /dashboard                              Application.dashboard
+GET     /synthesis                              Application.synthesis
+GET     /run/synthesis                          Application.runSynthesis
+GET     /debug/synthesis                        Application.runSynthesisWithLogs
+POST    /schemes                                Application.saveScheme
+DELETE  /scheme/{<[0-9]+>id}                    Application.deleteScheme
+GET     /synthesis/print                        Application.printSynthesis
+GET     /tests                                  Tests.index
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public

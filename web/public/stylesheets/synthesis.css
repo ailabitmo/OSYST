@@ -1,0 +1,20 @@
+.center-text {
+  text-align: center;
+}
+
+.class-name {
+  display: inline;
+  font-size: larger;
+}
+
+span[id^="class-"] {
+  font-size: larger;
+}
+
+.list-plain {
+    list-style: none;
+}
+
+.package-name {
+    font-size: medium
+}

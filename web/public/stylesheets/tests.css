@@ -1,0 +1,20 @@
+.testcase-form-row label, input {
+    display:  inline;
+}
+
+.testcase-form-row label {
+    margin-right: 5px;
+}
+
+input.input-micro {
+    width: 11px;
+}
+
+.schema {
+    padding-top: 5px;
+}
+
+.schema input[type="checkbox"] {
+    margin: 0 5px 0 5px;
+    vertical-align: baseline;
+}

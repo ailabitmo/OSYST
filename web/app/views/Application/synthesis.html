@@ -1,0 +1,163 @@
+#{extends 'templates/secure-page.html' /}
+
+#{set 'secure-page-styles'}
+    #{stylesheet 'ui-lightness/jquery-ui-1.9.1.custom.css'/}
+    #{stylesheet 'synthesis.css'/}
+    #{stylesheet 'schemes.css'/}
+#{/set}
+#{set 'secure-page-scripts'}
+    #{script 'jquery/jquery-ui-1.9.1.custom.js'/}
+    #{script 'drawing/kinetic-v3.9.5.min.js'/}
+    #{script 'drawing/shapes/Element.js'/}
+    #{script 'drawing/shapes/Scheme.js'/}
+    #{script 'schemes.js'/}
+    #{script 'utils.js' /}
+    #{script 'synthesis.js'/}
+    #{script 'popovers.js'/}
+#{/set}
+
+#{set title:'Synthesis'/}
+
+<div class="row-fluid">
+    <div class="span4">
+        <form id="tech-reqs-form" class="form-horizontal">
+            <fieldset>
+                <!--<legend>Technical characteristics</legend>-->
+                <div class="control-group">
+                    <label class="control-label with-help" for="aperture-speed">aperture speed
+                        <i id="aperture-speed-help" class="icon-question-sign"></i>
+                    </label>
+                    <div class="controls">
+                        <input class="input-small" id="aperture-speed" type="number" step="0.1" required="true" min="0"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="angular-field">angular field
+                        <i id="angular-field-help" class="icon-question-sign"></i>
+                    </label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input class="input-small" id="angular-field" type="number" step="1" required="true" min="0" max="180"/><span class="add-on">&#176;</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="focal-length">focal length
+                        <i id="focal-length-help" class="icon-question-sign"></i>
+                    </label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input class="input-small" id="focal-length" type="number" step="0.1" required="true"/><span class="add-on">mm.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="backfocal-distance">back focal distance
+                        <i id="backfocal-distance-help" class="icon-question-sign"></i>
+                    </label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input class="input-small" id="backfocal-distance" type="number" step="0.1" required="true"/><span class="add-on">mm.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="image-quality">image quality
+                        <i id="image-quality-help" class="icon-question-sign"></i>
+                    </label>
+                    <div class="controls">
+                        #{select 'requirements.imageQuality', class: "input-medium",
+                        id: "image-quality",
+                        items:ru.ifmo.ailab.e3soos.facts.Requirements.ImageQuality.values(),
+                        labelProperty: 'name',
+                        valueProperty: 'name',
+                        value: "${requirements?.imageQuality}"}
+                        #{/select}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="entrance-pupil-position">entrance pupil pos.
+                        <i id="entrance-pupil-position-help" class="icon-question-sign"></i>
+                    </label>
+                    <div class="controls">
+                        #{select 'requirements.entrancePupilPosition', class: "input-medium",
+                        id: "entrance-pupil-position",
+                        items:ru.ifmo.ailab.e3soos.facts.Requirements.EntrancePupilPosition.values(),
+                        labelProperty: 'name',
+                        valueProperty: 'name',
+                        value: "${requirements?.entrancePupilPosition}"}
+                        #{/select}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="spectral-range-min">spectral range
+                        <i id="spectral-range-help" class="icon-question-sign"></i>
+                    </label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input class="input-micro" id="spectral-range-min" type="number"
+                                   placeholder="min." step="1" required="true" min="0"/><input
+                                   class="input-micro" id="spectral-range-max" type="number"
+                                   placeholder="max." step="1" required="true" min="0"/><span class="add-on">nm.</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!--<legend>Actions</legend>-->
+                    <div class="center-text">
+                        <button id="btn-synthesis" class="btn btn-primary">Synthesize</button>
+                        #{if user.hasRole("admin")}
+                        <button id="debug" class="btn btn-mini" data-toggle="button">Debug</button>
+                        #{/if}
+                    </div>
+                </div>
+                <div>
+                    <legend>The knowledge base</legend>
+                    <ul class="list-plain">
+                        #{list items:dates.entrySet(), as:'entry' }
+                            <li><span class="package-name">${entry.key}</span>
+                                (modified: ${entry.value.format('dd.MM.yy HH:mm:ss:Z')})</li>
+                        #{/list}
+                    </ul>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="span8">
+        <div id="general-chs">
+            <legend>General characteristics</legend>
+            <div class="row-fluid">
+                <div class="span3 center-text">
+                    <div>...by optical features.</div>
+                    <div>
+                        <p class="class-name">J - </p><span id="class-J" class="label">-</span>
+                        <p class="class-name">W - </p><span id="class-W" class="label">-</span>
+                        <p class="class-name">F - </p><span id="class-F" class="label">-</span>
+                    </div>
+                </div>
+                <div class="span3 center-text">
+                    <div>...by purposes.</div>
+                    <div>
+                        <p class="class-name">L - </p><span id="class-L" class="label">-</span>
+                        <p class="class-name">Q - </p><span id="class-Q" class="label">-</span>
+                    </div>
+                </div>
+                <div class="span3 center-text">
+                    <div>...by design.</div>
+                    <div>
+                        <p class="class-name">S - </p><span id="class-S" class="label">-</span>
+                        <p class="class-name">D - </p><span id="class-D" class="label">-</span>
+                    </div>
+                </div>
+                <div class="span3 center-text">
+                    <div>The complexity of the system</div>
+                    <p class="class-name">R - </p><span id="class-R" class="label">-</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <legend>Structural schemes</legend>
+            <div id="scheme-area"></div>
+        </div>
+    </div>
+</div>

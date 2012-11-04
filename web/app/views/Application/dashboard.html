@@ -1,0 +1,62 @@
+#{extends 'templates/secure-page.html'/}
+
+#{set 'secure-page-styles'}
+    #{stylesheet 'schemes.css' /}
+#{/set}
+
+#{set 'secure-page-scripts'}
+    #{script 'drawing/kinetic-v3.9.5.min.js'/}
+    #{script 'drawing/shapes/Element.js'/}
+    #{script 'drawing/shapes/Scheme.js'/}
+    #{script 'dashboard.js'/}
+#{/set}
+
+#{set title: 'Dashboard'/}
+
+<div class="row-fluid">
+    <div class="span8">
+        <legend>Saved schemes</legend>
+        <div id="scheme-area">
+            #{list items:schemes, as:'scheme'}
+            <div class="scheme" data-scheme-code="${scheme.scheme}" data-scheme-id="${scheme.id}">
+                <div>
+                    <i>Saved:</i> ${scheme.date}
+                    <button class="btn btn-mini scheme-control">Delete</button>
+                </div>
+                #{if scheme.comment != ""}
+                <div class="scheme-comment"><i>Comment:</i> "${scheme.comment}"</div>
+                #{/if}
+                <div id="scheme_${scheme_index}" class="scheme-image"></div>
+                <div class="scheme-code">${scheme.scheme}
+                    <i class="icon-question-sign"></i>
+                </div>
+            </div>
+            #{/list}
+            #{ifnot schemes}
+                No saved schemes.
+            #{/ifnot}
+        </div>
+    </div>
+    <div class="span3 well">
+        <ul class="nav nav-list">
+            <li class="nav-header"><i class="icon-search"></i> Structural synthesis of ...</li>
+            <li>
+                <a href="@{Application.synthesis()}">photographic lens</a>
+            </li>
+            <li>
+                <a href="@{Application.synthesis()}">micro objective</a>
+            </li>
+            <li>
+                <a href="@{Application.synthesis()}">telescope</a>
+            </li>
+            <li>
+                <a href="@{Application.synthesis()}">relay system</a>
+            </li>
+            #{if user.hasRole("admin")}
+            <li class="nav-header">Admin</li>
+            <li><a href="http://guvnor.ailab.ifmo.ru/main"><i class="icon-book"></i> Guvnor</a></li>
+            <li><a href="/admin"><i class="icon-cog"></i> Admin panel</a></li>
+            #{/if}
+        </ul>
+    </div>
+</div>
