@@ -6,10 +6,6 @@ import play.jobs.OnApplicationStart;
 import play.test.Fixtures;
 import utils.RuleRunner;
 
-/**
- *
- * @author Maxim Kolchin
- */
 @OnApplicationStart
 public class OnStartApplication extends Job {
 
@@ -19,8 +15,5 @@ public class OnStartApplication extends Job {
         if(User.count() == 0) {
             Fixtures.loadModels("initial-data.yml");
         }
-
-        //Initialize RuleRunner
-        RuleRunner.init();
     }
 }

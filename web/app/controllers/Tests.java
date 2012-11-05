@@ -7,6 +7,7 @@ import play.db.jpa.NoTransaction;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.With;
+import services.testing.TestRunner;
 
 @With(Secure.class)
 public class Tests extends Controller {
@@ -32,5 +33,15 @@ public class Tests extends Controller {
             tc.delete();
         }
         ok();
+    }
+
+    public static void run(long id) {
+        TestCase tc = TestCase.findById(id);
+        if(tc != null) {
+            TestRunner.TestStatus result = TestRunner.run(tc);
+            renderJSON("{\"status\": \"" + result.toString() + "\"}");
+        } else {
+            badRequest();
+        }
     }
 }

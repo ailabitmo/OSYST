@@ -16,6 +16,7 @@ import play.mvc.With;
 import ru.ifmo.ailab.e3soos.facts.Classification;
 import ru.ifmo.ailab.e3soos.facts.Requirements;
 import ru.ifmo.ailab.e3soos.facts.Schema;
+import services.KnowledgeBase;
 import utils.Result;
 import utils.RuleRunner;
 
@@ -40,7 +41,7 @@ public class Application extends Controller {
     @Transactional(readOnly = true)
     public static void synthesis() {
         User user = User.find("byEmail", Security.connected()).first();
-        Map<String, Date> dates = RuleRunner.getDates();
+        Map<String, Date> dates = KnowledgeBase.getInstance().getPackagesVersions();
         render(user, dates);
     }
 
@@ -52,7 +53,7 @@ public class Application extends Controller {
             for (Schema scheme : RuleRunner.synthesis(classification)) {
                 schemes.add(scheme.toString());
             }
-            renderArgs.put("dates", RuleRunner.getDates());
+            renderArgs.put("dates", KnowledgeBase.getInstance().getPackagesVersions());
             render(classification, schemes, requirements);
         }
     }

@@ -127,4 +127,48 @@ public class Schema {
 
         return codeBuilder.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+         if(obj == null) {
+            return false;
+        }
+        if(obj instanceof Schema) {
+            Schema other = (Schema) obj;
+            if(this.bElement != null && !this.bElement.equals(other.bElement)) {
+                return false;
+            }
+            if(this.cbElement != null && !this.cbElement.equals(other.cbElement)) {
+                return false;
+            }
+            if(this.ctElement != null && !this.ctElement.equals(other.ctElement)) {
+                return false;
+            }
+            if(this.cyElement != null && !this.cyElement.equals(other.cyElement)) {
+                return false;
+            }
+            if(this.tElement != null && !this.tElement.equals(other.tElement)) {
+                return false;
+            }
+            if(this.yElement != null && !this.yElement.equals(other.yElement)) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + (this.yElement != null ? this.yElement.hashCode() : 0);
+        hash = 89 * hash + (this.cyElement != null ? this.cyElement.hashCode() : 0);
+        hash = 89 * hash + (this.bElement != null ? this.bElement.hashCode() : 0);
+        hash = 89 * hash + (this.cbElement != null ? this.cbElement.hashCode() : 0);
+        hash = 89 * hash + (this.tElement != null ? this.tElement.hashCode() : 0);
+        hash = 89 * hash + (this.ctElement != null ? this.ctElement.hashCode() : 0);
+        return hash;
+    }
+
+
 }

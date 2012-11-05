@@ -95,6 +95,38 @@ e3soos.testcase = (function() {
         });
     },
 
+    runAllTestcases = function() {
+        var testcases = $('.testcase'),
+        task = function(array) {
+            if(array.length > 0) {
+                var testcase = array.pop();
+                $(testcase).children('.testcase-status').html(
+                    '<span class="label label-info">Running...</span>');
+                $.ajax({
+                    url: '/tests/run/' + $(testcase).children('.testcase-id').text(),
+                    dataType: 'json',
+                    success: function(data) {
+                        if(data['status'] == "PASSED"){
+                            $(testcase).children('.testcase-status').html(
+                                '<span class="label label-success">Passed</span>');
+                        } else {
+                            $(testcase).children('.testcase-status').html(
+                                '<span class="label label-warning">Failed</span>');
+                        }
+                    },
+                    error: function() {
+                        $(testcase).children('.testcase-status').html(
+                            '<span class="label label-important">Error</span>');
+                    },
+                    complete: function() {
+                        task(array);
+                    }
+                });
+            }
+        };
+        task($.makeArray(testcases));
+    },
+
     changeStatus = function(status) {
         var help = $('#testcase-status');
         if(status == undefined) {
@@ -136,6 +168,11 @@ e3soos.testcase = (function() {
 
             $('#remove-testcase').click(function(event) {
                 removeTestcase($('.testcases .testcase input:checked').parent().parent());
+                event.preventDefault();
+            });
+
+            $('#run-all-testcases').click(function(event) {
+                runAllTestcases();
                 event.preventDefault();
             });
         }
