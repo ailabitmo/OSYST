@@ -11,7 +11,9 @@ GET     /                                       Index.index
 GET     /about                                  Index.about
 GET     /contact                                Index.contact
 
+################################################################################
 # Secure pages
+################################################################################
 GET     /dashboard                              Application.dashboard
 GET     /synthesis                              Application.synthesis
 GET     /run/synthesis                          Application.runSynthesis
@@ -19,10 +21,14 @@ GET     /debug/synthesis                        Application.runSynthesisWithLogs
 POST    /schemes                                Application.saveScheme
 DELETE  /scheme/{<[0-9]+>id}                    Application.deleteScheme
 GET     /synthesis/print                        Application.printSynthesis
+
+# Test framework
 GET     /tests                                  Tests.index
+GET     /tests/{<[0-9]+>id}                     Tests.get
 POST    /tests/add                              Tests.add
 DELETE  /tests/delete                           Tests.delete
 GET     /tests/run/{<[0-9]+>id}                 Tests.run
+PUT     /tests/edit                             Tests.edit
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import models.ClassificationSerializer;
+import models.serializers.ClassificationSerializer;
 import models.SavedScheme;
 import models.User;
 import play.db.jpa.NoTransaction;

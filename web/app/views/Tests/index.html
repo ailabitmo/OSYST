@@ -1,21 +1,25 @@
 #{extends 'templates/secure-page.html' /}
 
 #{set 'secure-page-styles'}
-#{stylesheet 'tests.css'/}
+    #{stylesheet 'tests.css'/}
 #{/set}
 
 #{set 'secure-page-scripts'}
-#{script 'tests.js'/}
+    #{script 'tests.js'/}
 #{/set}
 
 #{set title: 'Knowledge Base Tests'/}
+
+<script type="text/javascript">
+
+</script>
 
 <h1>Test cases</h1>
 
 <div id="testcase-actions">
     <h3>Actions:</h3>
     <button id="create-testcase" class="btn">Create</button>
-    <button id="edit-testcase" class="btn" disabled="disabled">Edit</button>
+    <button id="edit-testcase" class="btn">Edit</button>
     <button id="remove-testcase" class="btn btn-danger">Remove</button>
     <button id="run-all-testcases" class="btn btn-primary">Run All</button>
 </div>
@@ -39,8 +43,6 @@
                     <label>F</label><input name="gc-F" id="gc-F" type="number" value="0" class="input-micro"/>
                     <label>Q</label><input name="gc-Q" id="gc-Q" type="number" value="0" class="input-micro"/>
                     <label>D</label><input name="gc-D" id="gc-D" type="number" value="0" class="input-micro"/>
-                </div>
-                <div class="testcase-form-row">
                     <label>W</label><input name="gc-W" id="gc-W" type="number" value="0" class="input-micro"/>
                     <label>L</label><input name="gc-L" id="gc-L" type="number" value="0" class="input-micro"/>
                     <label>S</label><input name="gc-S" id="gc-S" type="number" value="0" class="input-micro"/>
@@ -70,13 +72,14 @@
         </tr>
     </thead>
     <tbody class="testcases">
-    #{list items: testcases, as:'testcase'}
-    <tr class="testcase">
-        <td><input type="checkbox"/></td>
-        <td class="testcase-id">${testcase.id}</td>
-        <td>${testcase.name}</td>
-        <td class="testcase-status">Not started</td>
-    </tr>
-    #{/list}
+        #{list items: testcases, as:'testcase'}
+        <tr class="testcase">
+            <td><input type="checkbox"/></td>
+            <td class="testcase-id">${testcase.id}</td>
+            <td class="testcase-name">${testcase.name}</td>
+            <td class="testcase-status">Not started</td>
+        </tr>
+        #{/list}
     </tbody>
 </table>
+
