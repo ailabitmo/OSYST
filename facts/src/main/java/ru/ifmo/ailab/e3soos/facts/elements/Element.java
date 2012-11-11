@@ -8,10 +8,10 @@ public class Element {
     private int secondSurfaceZone;
     private SurfaceType secondSurfaceType;
 
-    Element() {
+    public Element() {
     }
 
-    Element(final ElementType type, int firstZone,
+    public Element(final ElementType type, int firstZone,
             final SurfaceType firstSurface, int secondZone,
             final SurfaceType secondSurface) {
         this();
