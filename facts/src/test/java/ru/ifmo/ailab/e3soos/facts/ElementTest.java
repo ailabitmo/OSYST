@@ -1,12 +1,12 @@
 package ru.ifmo.ailab.e3soos.facts;
 
+import ru.ifmo.ailab.e3soos.facts.elements.SurfaceType;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import ru.ifmo.ailab.e3soos.facts.elements.BasicElement;
+import ru.ifmo.ailab.e3soos.facts.elements.Element;
+import ru.ifmo.ailab.e3soos.facts.elements.ElementFactory;
 
-/**
- *
- * @author maxim
- */
 public class ElementTest {
 
     public ElementTest() {
@@ -14,9 +14,9 @@ public class ElementTest {
 
     @Test
     public void testEquals() {
-        Element expected = new Element(ElementType.B, 1, SurfaceType.V, 1, SurfaceType.V);
-        Element actual_0 = new Element(ElementType.B, 2, SurfaceType.A, 2, SurfaceType.A);
-        Element actual_1 = new Element(ElementType.B, 1, SurfaceType.V, 1, SurfaceType.V);
+        Element expected = new BasicElement(1, SurfaceType.V, 1, SurfaceType.V);
+        Element actual_0 = new BasicElement(2, SurfaceType.A, 2, SurfaceType.A);
+        Element actual_1 = new BasicElement(1, SurfaceType.V, 1, SurfaceType.V);
 
         assertTrue(expected.equals(actual_1));
         assertTrue(actual_1.equals(expected));

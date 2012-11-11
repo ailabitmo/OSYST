@@ -1,15 +1,23 @@
-package ru.ifmo.ailab.e3soos.facts;
+package ru.ifmo.ailab.e3soos.facts.elements;
 
-/**
- *
- * @author Maxim Kolchin
- */
 public enum ElementType {
 
-    B, // Basic element
-    T, // Fast element
-    C, // Correction element
-    Y; // Wide-angular element
+    /**
+     * Basic.
+     */
+    B,
+    /**
+     * Fast.
+     */
+    T,
+    /**
+     * Corrective.
+     */
+    C,
+    /**
+     * Wide-angular.
+     */
+    Y;
 
     public static ElementType parse(final String value) {
         try {

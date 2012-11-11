@@ -2,6 +2,13 @@ package ru.ifmo.ailab.e3soos.facts;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import ru.ifmo.ailab.e3soos.facts.elements.BasicElement;
+import ru.ifmo.ailab.e3soos.facts.elements.CorrectiveElement;
+import ru.ifmo.ailab.e3soos.facts.elements.Element;
+import ru.ifmo.ailab.e3soos.facts.elements.ElementFactory;
+import ru.ifmo.ailab.e3soos.facts.elements.ElementType;
+import ru.ifmo.ailab.e3soos.facts.elements.FastElement;
+import ru.ifmo.ailab.e3soos.facts.elements.WideAngularElement;
 
 public abstract class SchemaFactory {
 
@@ -15,32 +22,35 @@ public abstract class SchemaFactory {
 
             String[] codes = pattern.split("[\\s+]+");
             Element previous = null;
-            for(String code:codes) {
+            for (String code : codes) {
                 Element element = ElementFactory.newElement(code);
-                switch(element.getElementType()) {
+                switch (element.getElementType()) {
                     case B:
-                        schema.setBElement(element);
+                        schema.setBasicElement((BasicElement) element);
                         break;
                     case Y:
-                        schema.setYElement(element);
+                        schema.setWideAngularElement((WideAngularElement) element);
                         break;
                     case T:
-                        schema.setTElement(element);
+                        schema.setFastElement((FastElement) element);
                         break;
                     case C:
-                        switch(previous.getElementType()) {
+                        CorrectiveElement ce = (CorrectiveElement) element;
+                        switch (previous.getElementType()) {
                             case B:
-                                schema.setCbElement(element);
+                                schema.addBasicCorrectiveElement(ce);
                                 break;
                             case Y:
-                                schema.setCyElement(element);
+                                schema.addWideAngularCorrectiveElement(ce);
                                 break;
                             case T:
-                                schema.setCtElement(element);
+                                schema.addFastCorrectiveElement(ce);
                                 break;
                         }
                 }
-                previous = element;
+                if (element.getElementType() != ElementType.C) {
+                    previous = element;
+                }
             }
             return schema;
         } else {

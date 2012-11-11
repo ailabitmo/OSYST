@@ -1,4 +1,4 @@
-package ru.ifmo.ailab.e3soos.facts;
+package ru.ifmo.ailab.e3soos.facts.elements;
 
 /**
  *

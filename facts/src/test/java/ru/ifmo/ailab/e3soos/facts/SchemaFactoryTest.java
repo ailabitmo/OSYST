@@ -15,6 +15,10 @@ public class SchemaFactoryTest {
         Schema schema2 = SchemaFactory.newSchema(code2);
         assertEquals(code2, schema2.toString());
 
+        String code3 = "B1P1A + C1V2P + C2A2P + T2V2P";
+        Schema schema3 = SchemaFactory.newSchema(code3);
+        assertEquals(code3, schema3.toString());
+
         try {
             SchemaFactory.newSchema("C1V2P + T2V2P");
             assertTrue(false);

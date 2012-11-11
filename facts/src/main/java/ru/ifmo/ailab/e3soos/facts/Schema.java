@@ -1,99 +1,94 @@
 package ru.ifmo.ailab.e3soos.facts;
 
-/**
- *
- */
+import java.util.ArrayList;
+import java.util.List;
+import ru.ifmo.ailab.e3soos.facts.elements.BasicElement;
+import ru.ifmo.ailab.e3soos.facts.elements.CorrectiveElement;
+import ru.ifmo.ailab.e3soos.facts.elements.FastElement;
+import ru.ifmo.ailab.e3soos.facts.elements.WideAngularElement;
+
 public class Schema {
 
     /**
      * A wide angular element.
      */
-    private Element yElement;
-    private Element cyElement;
+    private WideAngularElement yElement;
+    private List<CorrectiveElement> cyElements = new ArrayList<CorrectiveElement>();
     /**
      * A basic element.
      */
-    private Element bElement;
-    private Element cbElement;
+    private BasicElement bElement;
+    private List<CorrectiveElement> cbElements = new ArrayList<CorrectiveElement>();
     /**
      * A fast element.
      */
-    private Element tElement;
-    private Element ctElement;
+    private FastElement tElement;
+    private List<CorrectiveElement> ctElements = new ArrayList<CorrectiveElement>();
 
     public Schema() {
     }
 
-    public Schema(final Element b) {
-        if (b.getElementType() != ElementType.B) {
-            throw new IllegalArgumentException();
-        }
+    public Schema(final BasicElement b) {
         this.bElement = b;
     }
 
-    public Element getCbElement() {
-        return cbElement;
+    public List<CorrectiveElement> getBasicCorrectiveElements() {
+        return cbElements;
     }
 
-    public void setCbElement(Element cbElement) {
-        if(cbElement.getElementType() != ElementType.C){
-            throw new IllegalArgumentException();
-        }
-        this.cbElement = cbElement;
+    public void addBasicCorrectiveElement(CorrectiveElement element) {
+        cbElements.add(element);
     }
 
-    public Element getCtElement() {
-        return ctElement;
+    public void setBasicCorrectiveElements(List<CorrectiveElement> elements) {
+        this.cbElements = elements;
     }
 
-    public void setCtElement(Element ctElement) {
-        if(ctElement.getElementType() != ElementType.C){
-            throw new IllegalArgumentException();
-        }
-        this.ctElement = ctElement;
+    public List<CorrectiveElement> getFastCorrectiveElements() {
+        return ctElements;
     }
 
-    public Element getCyElement() {
-        return cyElement;
+    public void addFastCorrectiveElement(CorrectiveElement element) {
+        ctElements.add(element);
     }
 
-    public void setCyElement(Element cyElement) {
-        if(cyElement.getElementType() != ElementType.C){
-            throw new IllegalArgumentException();
-        }
-        this.cyElement = cyElement;
+    public void setFastCorrectiveElements(List<CorrectiveElement> elements) {
+        this.ctElements = elements;
     }
 
-    public Element getYElement() {
+    public List<CorrectiveElement> getWideAngularCorrectiveElements() {
+        return cyElements;
+    }
+
+    public void addWideAngularCorrectiveElement(CorrectiveElement element) {
+        cyElements.add(element);
+    }
+
+    public void setWideAngularCorrectiveElements(List<CorrectiveElement> elements) {
+        this.cyElements = elements;
+    }
+
+    public WideAngularElement getWideAngularElement() {
         return yElement;
     }
 
-    public void setYElement(final Element y) {
-        if (y.getElementType() != ElementType.Y) {
-            throw new IllegalArgumentException();
-        }
+    public void setWideAngularElement(final WideAngularElement y) {
         this.yElement = y;
     }
 
-    public Element getBElement() {
+    public BasicElement getBasicElement() {
         return bElement;
     }
 
-    public void setBElement(final Element b) {
-        if (b.getElementType() != ElementType.B) {
-            throw new IllegalArgumentException();
-        }
+    public void setBasicElement(final BasicElement b) {
         this.bElement = b;
     }
 
-    public Element getTElement() {
+    public FastElement getFastElement() {
         return tElement;
     }
 
-    public void setTElement(final Element t) {
-        if (t.getElementType() != ElementType.T) {
-            throw new IllegalArgumentException();
-        }
+    public void setFastElement(final FastElement t) {
         this.tElement = t;
     }
 
@@ -105,24 +100,30 @@ public class Schema {
             codeBuilder.append(yElement.toString());
             codeBuilder.append(" + ");
         }
-        if (cyElement != null) {
-            codeBuilder.append(cyElement.toString());
-            codeBuilder.append(" + ");
+        if (cyElements != null) {
+            for (CorrectiveElement c : cyElements) {
+                codeBuilder.append(c.toString());
+                codeBuilder.append(" + ");
+            }
         }
         //Basic element
         codeBuilder.append(bElement.toString());
-        if (cbElement != null) {
-            codeBuilder.append(" + ");
-            codeBuilder.append(cbElement.toString());
+        if (cbElements != null) {
+            for (CorrectiveElement c : cbElements) {
+                codeBuilder.append(" + ");
+                codeBuilder.append(c.toString());
+            }
         }
         //Fast element
         if (tElement != null) {
             codeBuilder.append(" + ");
             codeBuilder.append(tElement.toString());
         }
-        if (ctElement != null) {
-            codeBuilder.append(" + ");
-            codeBuilder.append(ctElement.toString());
+        if (ctElements != null) {
+            for (CorrectiveElement c : ctElements) {
+                codeBuilder.append(" + ");
+                codeBuilder.append(c.toString());
+            }
         }
 
         return codeBuilder.toString();
@@ -130,27 +131,27 @@ public class Schema {
 
     @Override
     public boolean equals(Object obj) {
-         if(obj == null) {
+        if (obj == null) {
             return false;
         }
-        if(obj instanceof Schema) {
+        if (obj instanceof Schema) {
             Schema other = (Schema) obj;
-            if(this.bElement != null && !this.bElement.equals(other.bElement)) {
+            if (this.bElement != null && !this.bElement.equals(other.bElement)) {
                 return false;
             }
-            if(this.cbElement != null && !this.cbElement.equals(other.cbElement)) {
+            if (this.cbElements != null && !this.cbElements.equals(other.cbElements)) {
                 return false;
             }
-            if(this.ctElement != null && !this.ctElement.equals(other.ctElement)) {
+            if (this.ctElements != null && !this.ctElements.equals(other.ctElements)) {
                 return false;
             }
-            if(this.cyElement != null && !this.cyElement.equals(other.cyElement)) {
+            if (this.cyElements != null && !this.cyElements.equals(other.cyElements)) {
                 return false;
             }
-            if(this.tElement != null && !this.tElement.equals(other.tElement)) {
+            if (this.tElement != null && !this.tElement.equals(other.tElement)) {
                 return false;
             }
-            if(this.yElement != null && !this.yElement.equals(other.yElement)) {
+            if (this.yElement != null && !this.yElement.equals(other.yElement)) {
                 return false;
             }
             return true;
@@ -162,13 +163,11 @@ public class Schema {
     public int hashCode() {
         int hash = 7;
         hash = 89 * hash + (this.yElement != null ? this.yElement.hashCode() : 0);
-        hash = 89 * hash + (this.cyElement != null ? this.cyElement.hashCode() : 0);
+        hash = 89 * hash + (this.cyElements != null ? this.cyElements.hashCode() : 0);
         hash = 89 * hash + (this.bElement != null ? this.bElement.hashCode() : 0);
-        hash = 89 * hash + (this.cbElement != null ? this.cbElement.hashCode() : 0);
+        hash = 89 * hash + (this.cbElements != null ? this.cbElements.hashCode() : 0);
         hash = 89 * hash + (this.tElement != null ? this.tElement.hashCode() : 0);
-        hash = 89 * hash + (this.ctElement != null ? this.ctElement.hashCode() : 0);
+        hash = 89 * hash + (this.ctElements != null ? this.ctElements.hashCode() : 0);
         return hash;
     }
-
-
 }

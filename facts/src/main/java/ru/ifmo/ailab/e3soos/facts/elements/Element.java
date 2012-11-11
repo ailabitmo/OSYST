@@ -1,9 +1,5 @@
-package ru.ifmo.ailab.e3soos.facts;
+package ru.ifmo.ailab.e3soos.facts.elements;
 
-/**
- *
- * @author Maxim Kolchin
- */
 public class Element {
 
     private ElementType elementType;
@@ -12,10 +8,10 @@ public class Element {
     private int secondSurfaceZone;
     private SurfaceType secondSurfaceType;
 
-    public Element() {
+    Element() {
     }
 
-    public Element(final ElementType type, int firstZone,
+    Element(final ElementType type, int firstZone,
             final SurfaceType firstSurface, int secondZone,
             final SurfaceType secondSurface) {
         this();
@@ -46,7 +42,7 @@ public class Element {
         return secondSurfaceZone;
     }
 
-    public void setElementType(ElementType type) {
+    protected void setElementType(ElementType type) {
         this.elementType = type;
     }
 
