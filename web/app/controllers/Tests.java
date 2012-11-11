@@ -2,20 +2,14 @@ package controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.util.ArrayList;
 import java.util.List;
-import models.ClassificationModel;
 import models.SchemaModel;
 import models.TestCase;
-import models.serializers.ClassificationSerializer;
-import models.serializers.TestCaseSerializer;
 import play.data.binding.Binder;
 import play.db.jpa.Model;
-import play.db.jpa.NoTransaction;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.With;
-import ru.ifmo.ailab.e3soos.facts.Classification;
 import services.testing.TestRunner;
 
 @With(Secure.class)
