@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import ru.ifmo.ailab.e3soos.facts.elements.BasicElement;
 import ru.ifmo.ailab.e3soos.facts.elements.CorrectiveElement;
+import ru.ifmo.ailab.e3soos.facts.elements.Element;
+import ru.ifmo.ailab.e3soos.facts.elements.ElementType;
 import ru.ifmo.ailab.e3soos.facts.elements.FastElement;
 import ru.ifmo.ailab.e3soos.facts.elements.WideAngularElement;
 
@@ -12,32 +14,42 @@ public class Schema {
     /**
      * A wide angular element.
      */
-    private WideAngularElement yElement;
+    private WideAngularElement wideAngularElement;
     private List<CorrectiveElement> cyElements = new ArrayList<CorrectiveElement>();
     /**
      * A basic element.
      */
-    private BasicElement bElement;
+    private BasicElement basicElement;
     private List<CorrectiveElement> cbElements = new ArrayList<CorrectiveElement>();
     /**
      * A fast element.
      */
-    private FastElement tElement;
+    private FastElement fastElement;
     private List<CorrectiveElement> ctElements = new ArrayList<CorrectiveElement>();
 
     public Schema() {
     }
 
+    public Schema(final Element basic) {
+        if(basic.getElementType() != ElementType.B) {
+            throw new IllegalArgumentException();
+        }
+        this.basicElement = (BasicElement) basic;
+    }
+
     public Schema(final BasicElement b) {
-        this.bElement = b;
+        this.basicElement = b;
     }
 
     public List<CorrectiveElement> getBasicCorrectiveElements() {
         return cbElements;
     }
 
-    public void addBasicCorrectiveElement(CorrectiveElement element) {
-        cbElements.add(element);
+    public void addBasicCorrectiveElement(Element element) {
+        if(element.getElementType() != ElementType.C) {
+            throw new IllegalArgumentException();
+        }
+        cbElements.add((CorrectiveElement)element);
     }
 
     public void setBasicCorrectiveElements(List<CorrectiveElement> elements) {
@@ -48,8 +60,11 @@ public class Schema {
         return ctElements;
     }
 
-    public void addFastCorrectiveElement(CorrectiveElement element) {
-        ctElements.add(element);
+    public void addFastCorrectiveElement(Element element) {
+        if(element.getElementType() != ElementType.C) {
+            throw new IllegalArgumentException();
+        }
+        ctElements.add((CorrectiveElement)element);
     }
 
     public void setFastCorrectiveElements(List<CorrectiveElement> elements) {
@@ -60,8 +75,11 @@ public class Schema {
         return cyElements;
     }
 
-    public void addWideAngularCorrectiveElement(CorrectiveElement element) {
-        cyElements.add(element);
+    public void addWideAngularCorrectiveElement(Element element) {
+        if(element.getElementType() != ElementType.C) {
+            throw new IllegalArgumentException();
+        }
+        cyElements.add((CorrectiveElement)element);
     }
 
     public void setWideAngularCorrectiveElements(List<CorrectiveElement> elements) {
@@ -69,35 +87,56 @@ public class Schema {
     }
 
     public WideAngularElement getWideAngularElement() {
-        return yElement;
+        return wideAngularElement;
     }
 
     public void setWideAngularElement(final WideAngularElement y) {
-        this.yElement = y;
+        this.wideAngularElement = y;
+    }
+
+    public void setWideAngularElement(final Element y) {
+        if(y.getElementType() != ElementType.Y) {
+            throw new IllegalArgumentException();
+        }
+        this.wideAngularElement = (WideAngularElement) y;
     }
 
     public BasicElement getBasicElement() {
-        return bElement;
+        return basicElement;
     }
 
     public void setBasicElement(final BasicElement b) {
-        this.bElement = b;
+        this.basicElement = b;
+    }
+
+    public void setBasicElement(final Element b) {
+        if(b.getElementType() != ElementType.B) {
+            throw new IllegalArgumentException();
+        }
+        this.basicElement = (BasicElement) b;
     }
 
     public FastElement getFastElement() {
-        return tElement;
+        return fastElement;
+    }
+
+    public void setFastElement(final Element b) {
+        if(b.getElementType() != ElementType.T) {
+            throw new IllegalArgumentException();
+        }
+        this.fastElement = (FastElement) b;
     }
 
     public void setFastElement(final FastElement t) {
-        this.tElement = t;
+        this.fastElement = t;
     }
 
     @Override
     public String toString() {
         StringBuilder codeBuilder = new StringBuilder();
         //Wide-angular element
-        if (yElement != null) {
-            codeBuilder.append(yElement.toString());
+        if (wideAngularElement != null) {
+            codeBuilder.append(wideAngularElement.toString());
             codeBuilder.append(" + ");
         }
         if (cyElements != null) {
@@ -107,7 +146,7 @@ public class Schema {
             }
         }
         //Basic element
-        codeBuilder.append(bElement.toString());
+        codeBuilder.append(basicElement.toString());
         if (cbElements != null) {
             for (CorrectiveElement c : cbElements) {
                 codeBuilder.append(" + ");
@@ -115,9 +154,9 @@ public class Schema {
             }
         }
         //Fast element
-        if (tElement != null) {
+        if (fastElement != null) {
             codeBuilder.append(" + ");
-            codeBuilder.append(tElement.toString());
+            codeBuilder.append(fastElement.toString());
         }
         if (ctElements != null) {
             for (CorrectiveElement c : ctElements) {
@@ -136,7 +175,7 @@ public class Schema {
         }
         if (obj instanceof Schema) {
             Schema other = (Schema) obj;
-            if (this.bElement != null && !this.bElement.equals(other.bElement)) {
+            if (this.basicElement != null && !this.basicElement.equals(other.basicElement)) {
                 return false;
             }
             if (this.cbElements != null && !this.cbElements.equals(other.cbElements)) {
@@ -148,10 +187,10 @@ public class Schema {
             if (this.cyElements != null && !this.cyElements.equals(other.cyElements)) {
                 return false;
             }
-            if (this.tElement != null && !this.tElement.equals(other.tElement)) {
+            if (this.fastElement != null && !this.fastElement.equals(other.fastElement)) {
                 return false;
             }
-            if (this.yElement != null && !this.yElement.equals(other.yElement)) {
+            if (this.wideAngularElement != null && !this.wideAngularElement.equals(other.wideAngularElement)) {
                 return false;
             }
             return true;
@@ -162,11 +201,11 @@ public class Schema {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + (this.yElement != null ? this.yElement.hashCode() : 0);
+        hash = 89 * hash + (this.wideAngularElement != null ? this.wideAngularElement.hashCode() : 0);
         hash = 89 * hash + (this.cyElements != null ? this.cyElements.hashCode() : 0);
-        hash = 89 * hash + (this.bElement != null ? this.bElement.hashCode() : 0);
+        hash = 89 * hash + (this.basicElement != null ? this.basicElement.hashCode() : 0);
         hash = 89 * hash + (this.cbElements != null ? this.cbElements.hashCode() : 0);
-        hash = 89 * hash + (this.tElement != null ? this.tElement.hashCode() : 0);
+        hash = 89 * hash + (this.fastElement != null ? this.fastElement.hashCode() : 0);
         hash = 89 * hash + (this.ctElements != null ? this.ctElements.hashCode() : 0);
         return hash;
     }
