@@ -46,13 +46,11 @@ lib.schemes = (function () {
     };
 
     var drawScheme = function (index, scheme) {
-        new Drawing.Scheme({
+        Drawing.AbstractFactory.createSchemeAndStage({
             container: 'scheme_' + index,
-            codes: scheme.split(' + '),
-            interval: 10
-        })
-        .draw();
-    }
+            code: scheme
+        });
+    };
 
     var createSchemeDom = function (index, scheme) {
         return '<div class="scheme" data-scheme-index="' + index + '">'
@@ -75,7 +73,7 @@ lib.schemes = (function () {
                 parent = button.parents('.scheme'),
                 scheme_id = parent.attr(attrs.id);
 
-            if(button.hasClass('btn-warning') && scheme_id != undefined) {
+            if(button.hasClass('btn-warning') && scheme_id !== undefined) {
                 //Delete a scheme
                 button.attr(attrs.disabled,attrs.disabled)
                 .addClass(attrs.disabled).html(messages.deleting);
@@ -118,7 +116,7 @@ lib.schemes = (function () {
         //Hover on the scheme button
         $(attrs.container).find('.scheme .scheme-control').hover(function() {
                 var button = $(this);
-                if(button.parents('.scheme').attr(attrs.id) != undefined
+                if(button.parents('.scheme').attr(attrs.id) !== undefined
                     && !button.hasClass('disabled')) {
                     if(button.hasClass('btn-success')) {
                         button.removeClass('btn-success')

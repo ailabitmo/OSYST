@@ -1,0 +1,23 @@
+#{extends 'templates/secure-page.html' /}
+
+#{set 'secure-page-styles'}
+    <style type="text/css">
+        .test-canvas {
+            border: 1px solid blue;
+            display: inline-block;
+            margin: 10px;
+        }
+    </style>
+#{/set}
+
+#{set 'secure-page-scripts'}
+    #{script 'drawing/kinetic-v4.1.2.min.js'/}
+    #{script 'drawing/shapes/Element.js'/}
+    #{script 'drawing/shapes/SchemeFrame.js'/}
+    #{script 'drawing/AbstractFactory.js'/}
+    #{script 'drawing/tests.js'/}
+#{/set}
+
+#{set title: 'Scheme Drawing Tests'/}
+
+<div id="test-canvases"></div>

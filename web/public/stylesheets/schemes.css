@@ -11,7 +11,11 @@
 }
 
 .scheme .scheme-image {
-    margin-left: 30px;
+    text-align: center;
+}
+
+.scheme .scheme-image canvas {
+    display: block;
 }
 
 .scheme .scheme-code {

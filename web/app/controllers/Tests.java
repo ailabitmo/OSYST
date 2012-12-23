@@ -28,6 +28,10 @@ public class Tests extends Controller {
         render(testcases);
     }
 
+    public static void schemes() {
+        render();
+    }
+
     public static void get(long id) {
         TestCase testcase = TestCase.findById(id);
         renderJSON(gson.toJson(testcase));

@@ -1,13 +1,13 @@
 $(document).ready(function(){
     $('.scheme div[id^="scheme_"]').each(function(){
-        var image = new Drawing.Scheme({
-                        container: $(this).attr('id'),
-                        codes: $(this).parents('.scheme').attr('data-scheme-code').split(' + '),
-                        interval: 10
-                    });
-        image.draw();
+        Drawing.AbstractFactory.createSchemeAndStage({
+            code: $(this).parents('.scheme').attr('data-scheme-code'),
+            container: $(this).attr('id')
+        });
+
         $('#scheme-area').height($(window).height() - 130);
     });
+
     $('.scheme .scheme-control').click(function () {
         var button = $(this),
             parent = button.parents('.scheme'),

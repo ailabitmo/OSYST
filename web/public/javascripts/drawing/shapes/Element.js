@@ -1,124 +1,136 @@
+"use strict";
+
 var Drawing = Drawing || {};
 
-Drawing.Element = function(config) {
+(function(){
+    /**
+     * Element constructor.
+     * @constructor
+     * @augments Kinetic.Shape
+     * @param {Object} config
+     */
+    Drawing.Element = function(config) {
+        this._initElement(config);
+    };
+    Drawing.Element.prototype = {
+        _initElement: function(config) {
+            this.setDefaultAttrs({
+                code: 'B1A1A',
+                width: 0,
+                height: 0,
+                ratio: 1,
+                strokeWidth: 1,
+                surfaceRadious: 15,
+                firstR: 0, //1 - is convex, 0 - is flat, -1 - is concave
+                secondR: 0 //1 -is concave , 0 - is flat or -1 - is convex
+            });
+            this.shapeType = "Element";
 
-    this.setDefaultAttrs({
-        code: 'B1A1A',
-        width: 0,
-        height: 0,
-        stroke: 'black',
-        strokeWidth: 1,
-        firstR: 0,
-        secondR: 0
-    });
+            this._computeAttrs(config);
 
-    $.extend(this.attrs, config);
+            Kinetic.Shape.call(this, config);
+            this._setDrawFuncs();
+        },
+        _computeAttrs: function(config) {
+            this.attrs.code = config.code;
+            this.attrs.type = this.attrs.code.charAt(0);
+            this.attrs.firstZone = parseInt(this.attrs.code.charAt(1), 10);
+            this.attrs.firstSurface = this.attrs.code.charAt(2);
+            this.attrs.secondZone = parseInt(this.attrs.code.charAt(3), 10);
+            this.attrs.secondSurface = this.attrs.code.charAt(4);
+        },
+        drawFunc: function(context) {
 
-    this.shapeType = "Element";
+            this.attrs.centerX = this.attrs.width / 2;
+            this.attrs.centerY = this.attrs.height / 2;
 
-    //Define attributes
-    this.attrs.type = this.attrs.code.charAt(0);
-    this.attrs.firstZone = this.attrs.code.charAt(1);
-    this.attrs.firstSurface = this.attrs.code.charAt(2);
-    this.attrs.secondZone = this.attrs.code.charAt(3);
-    this.attrs.secondSurface = this.attrs.code.charAt(4);
-    this.attrs.radious = 15;
-
-    config.drawFunc = function() {
-
-        this.attrs.centerX = this.attrs.width / 2;
-        this.attrs.centerY = this.attrs.height / 2;
-
-        var context = this.getContext();
-        context.beginPath();
-        if(this.attrs.firstR > 0) {
-            context.moveTo(this.attrs.radious, 0);
-        } else {
-            context.moveTo(0,0);
-        }
-        if(this.attrs.secondR < 0) {
-            context.lineTo(this.attrs.width - this.attrs.radious, 0);
-            context.bezierCurveTo(this.attrs.width, this.attrs.radious,
-                    this.attrs.width, this.attrs.height - this.attrs.radious,
-                    this.attrs.width - this.attrs.radious, this.attrs.height);
-        } else if(this.attrs.secondR > 0) {
-            context.lineTo(this.attrs.width, 0);
-            context.bezierCurveTo(this.attrs.width - this.attrs.radious, this.attrs.radious,
-                    this.attrs.width - this.attrs.radious, this.attrs.height - this.attrs.radious,
+            context.beginPath();
+            //Select the starting point
+            if(this.attrs.firstR > 0) {
+                context.moveTo(this.attrs.surfaceRadious, 0);
+            } else {
+                //the top-left corner
+                context.moveTo(0,0);
+            }
+            //Draw the top line
+            if(this.attrs.secondR < 0) {
+                context.lineTo(this.attrs.width - this.attrs.surfaceRadious, 0);
+            } else {
+                context.lineTo(this.attrs.width, 0);
+            }
+            //Draw the second (a.k.a the right) surface
+            if(this.attrs.secondR < 0) {
+                context.bezierCurveTo(this.attrs.width, this.attrs.surfaceRadious,
+                    this.attrs.width, this.attrs.height - this.attrs.surfaceRadious,
+                    this.attrs.width - this.attrs.surfaceRadious, this.attrs.height);
+            } else if(this.attrs.secondR > 0) {
+                context.bezierCurveTo(this.attrs.width - this.attrs.surfaceRadious, this.attrs.surfaceRadious,
+                    this.attrs.width - this.attrs.surfaceRadious, this.attrs.height - this.attrs.surfaceRadious,
                     this.attrs.width, this.attrs.height);
-        } else {
-            context.lineTo(this.attrs.width, 0);
-            context.lineTo(this.attrs.width, this.attrs.height);
-        }
-        if(this.attrs.firstR > 0) {
-            context.lineTo(this.attrs.radious, this.attrs.height);
-            context.bezierCurveTo(0, this.attrs.height - this.attrs.radious,
-                    0, this.attrs.radious,
-                    this.attrs.radious, 0);
-        } else if(this.attrs.firstR < 0) {
-            context.lineTo(0, this.attrs.height);
-            context.bezierCurveTo(this.attrs.radious, this.attrs.height - this.attrs.radious,
-                    this.attrs.radious, this.attrs.radious,
+            } else {
+                context.lineTo(this.attrs.width, this.attrs.height);
+            }
+            //Draw the bottom line
+            if(this.attrs.firstR > 0) {
+                context.lineTo(this.attrs.surfaceRadious, this.attrs.height);
+            } else if(this.attrs.firstR < 0) {
+                context.lineTo(0, this.attrs.height);
+            } else {
+                context.lineTo(0, this.attrs.height);
+            }
+            //Draw the first (a.k.a the left) surface
+            if(this.attrs.firstR > 0) {
+                context.bezierCurveTo(0, this.attrs.height - this.attrs.surfaceRadious,
+                    0, this.attrs.surfaceRadious,
+                    this.attrs.surfaceRadious, 0);
+            } else if(this.attrs.firstR < 0) {
+                context.bezierCurveTo(this.attrs.surfaceRadious, this.attrs.height - this.attrs.surfaceRadious,
+                    this.attrs.surfaceRadious, this.attrs.surfaceRadious,
                     0, 0);
-        } else {
-            context.lineTo(0, this.attrs.height);
-            context.lineTo(0, 0);
+            } else {
+                context.lineTo(0, 0);
+            }
+            //Stop drawing
+            context.closePath();
+            this.fillStroke(context);
+        },
+        getType : function () {
+            return this.attrs.type;
+        },
+        getFirstZone: function () {
+            return this.attrs.firstZone;
+        },
+        getFirstSurface: function () {
+            return this.attrs.firstSurface;
+        },
+        setFirstR : function (r) {
+            this.attrs.firstR = r;
+        },
+        setSecondR : function (r) {
+            this.attrs.secondR = r;
+        },
+        getSecondZone: function () {
+            return this.attrs.secondZone;
+        },
+        getSecondSurface: function () {
+            return this.attrs.secondSurface;
+        },
+        /**
+        * @param {Number} width
+        */
+        setWidth: function(width) {
+            this.attrs.width = width;
+        },
+        /**
+        * @param {Number} height
+        */
+        setHeight: function(height) {
+            this.attrs.height = height * this.attrs.ratio;
+        },
+        setHeightRatio: function(ratio) {
+            this.attrs.ratio = ratio;
         }
-        context.closePath();
-        this.applyStyles();
     };
 
-    Kinetic.Shape.apply(this, [config]);
-};
-
-Drawing.Element.prototype = {
-    getType : function () {
-        return this.attrs.type;
-    },
-    getFirstZone: function () {
-        return this.attrs.firstZone;
-    },
-    getFirstSurface: function () {
-        return this.attrs.firstSurface;
-    },
-    setFirstR : function (r) {
-        this.attrs.firstR = r;
-    },
-    setSecondR : function (r) {
-        this.attrs.secondR = r;
-    },
-    getSecondZone: function () {
-        return this.attrs.secondZone;
-    },
-    getSecondSurface: function () {
-        return this.attrs.secondSurface;
-    },
-    /**
-    * set width
-    * @param {Number} width
-    */
-    setWidth: function(width) {
-        this.attrs.width = width;
-    },
-    /**
-    * get width
-    */
-    getWidth: function() {
-        return this.attrs.width;
-    },
-    /**
-    * set height
-    * @param {Number} height
-    */
-    setHeight: function(height) {
-        this.attrs.height = height;
-    },
-    /**
-    * get height
-    */
-    getHeight: function() {
-        return this.attrs.height;
-    }
-};
-
-Kinetic.GlobalObject.extend(Drawing.Element, Kinetic.Shape);
+    Kinetic.Global.extend(Drawing.Element, Kinetic.Shape);
+})();
