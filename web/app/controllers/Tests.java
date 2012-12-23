@@ -7,9 +7,11 @@ import models.SchemaModel;
 import models.TestCase;
 import play.data.binding.Binder;
 import play.db.jpa.Model;
+import play.db.jpa.NoTransaction;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.With;
+import services.KnowledgeBase;
 import services.testing.TestRunner;
 
 @With(Secure.class)

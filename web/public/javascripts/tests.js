@@ -21,10 +21,10 @@ e3soos.testcase_form = (function() {
     addSchema = function(value) {
         $('#schemas').append(
             '<div class="schema testcase-form-row" '
-            + (value == undefined? '' : 'schema_id="' + value.id + '"')
+            + (value === undefined? '' : 'schema_id="' + value.id + '"')
             + '>'
             + '<input type="checkbox"/><input type="text" value="'
-            + (value == undefined? '':value.code) +'" class="span5"/>'
+            + (value === undefined? '':value.code) +'" class="span5"/>'
             +'</div>'
             );
     },
@@ -77,6 +77,16 @@ e3soos.testcase_form = (function() {
     cleanForm = function() {
         testcase_temp = {};
         $('#schemas .schema').detach();
+    },
+
+    updateKB = function() {
+        $.ajax({
+            url: '/kb/update',
+            type: 'GET',
+            error: function() {
+                console.log("ERROR!");
+            }
+        });
     };
 
     return {
@@ -100,6 +110,10 @@ e3soos.testcase_form = (function() {
                 dialog.modal('hide');
                 event.preventDefault();
             });
+            $('#update-kb').click(function(event){
+                updateKB();
+                event.preventDefault();
+            });
         },
         open: function(testcase) {
             cleanForm();
@@ -108,7 +122,7 @@ e3soos.testcase_form = (function() {
             }
             dialog.modal('show');
         }
-    }
+    };
 })();
 
 e3soos.testcase = (function() {

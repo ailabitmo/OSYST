@@ -20,17 +20,21 @@ import play.Logger;
 
 public class KnowledgeBase {
 
-    private static KnowledgeBase instance;
+    private static volatile KnowledgeBase instance;
     private KnowledgeAgent knowledgeAgent;
     private Map<String, Date> packagesVersions = new HashMap();
 
     private KnowledgeBase() {
     }
 
-    public static synchronized KnowledgeBase getInstance() {
+    public static KnowledgeBase getInstance() {
         if (instance == null) {
-            instance = new KnowledgeBase();
-            instance.init();
+            synchronized (KnowledgeBase.class) {
+                if (instance == null) {
+                    instance = new KnowledgeBase();
+                    instance.init();
+                }
+            }
         }
         return instance;
     }
@@ -86,13 +90,16 @@ public class KnowledgeBase {
         return packagesVersions;
     }
 
+    public void scan() {
+        ResourceFactory.getResourceChangeScannerService().scan();
+    }
+
     public static synchronized void dispose() {
-        if (instance.knowledgeAgent != null) {
+        if (instance != null && instance.knowledgeAgent != null) {
             instance.knowledgeAgent.dispose();
         }
         ResourceFactory.getResourceChangeNotifierService().stop();
         ResourceFactory.getResourceChangeScannerService().stop();
-        instance = null;
     }
 
     private class KAEventListener extends DefaultKnowledgeAgentEventListener {

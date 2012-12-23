@@ -30,6 +30,9 @@ DELETE  /tests/delete                           Tests.delete
 GET     /tests/run/{<[0-9]+>id}                 Tests.run
 PUT     /tests/edit                             Tests.edit
 
+# Knowledge Base API
+GET     /kb/update                              KnowledgeBase.update
+
 # JavaScript Tests
 GET /tests/schemes                              Tests.schemes
 
