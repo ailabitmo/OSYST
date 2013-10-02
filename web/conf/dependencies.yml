@@ -1,10 +1,18 @@
 # Application dependencies
 
 require:
-    - play 1.2.4
+    - play
     - play -> secure
     - play -> crud
     - org.drools -> drools-core 5.3.0.Final
     - org.drools -> drools-compiler 5.3.0.Final:
         exclude:
             - janino -> janino *
+    - ru.ifmo.ailab.e3soos -> facts 1.0-SNAPSHOT
+    
+repositories:
+  - local_repo:
+      type: iBiblio
+      root: "file://${user.home}/.m2/repository/"
+      contains:
+        - ru.ifmo.ailab.e3soos.*

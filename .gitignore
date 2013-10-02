@@ -3,3 +3,5 @@ facts/target
 web/lib
 web/precompiled
 web/modules
+web/nbproject/
+web/tmp
