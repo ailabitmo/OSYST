@@ -77,7 +77,7 @@ e3soos.dashboard = (function () {
                 e3soos.notifier.open();
                 if (isDebugMode()) {
                     $.getJSON(
-                        '/debug/synthesis?' + e3soos.utils.toParam(technicalReqs, 'requirements.'),
+                        'debug/synthesis?' + e3soos.utils.toParam(technicalReqs, 'requirements.'),
                         function (data) {
                             e3soos.debugwindow.open(data.logs);
                             afterSynthesisFinished(data.data);
@@ -88,7 +88,7 @@ e3soos.dashboard = (function () {
                     });
                 } else {
                     $.getJSON(
-                        '/run/synthesis?' + e3soos.utils.toParam(technicalReqs, 'requirements.'),
+                        'run/synthesis?' + e3soos.utils.toParam(technicalReqs, 'requirements.'),
                         function (data) {
                             afterSynthesisFinished(data);
                             e3soos.notifier.close();
@@ -130,7 +130,7 @@ e3soos.dashboard = (function () {
             readTechnicalReqs();
             if (!jQuery.isEmptyObject(technicalReqs)) {
                 window.open(
-                '/synthesis/print?' +e3soos.utils.toParam(technicalReqs, 'requirements.'));
+                'synthesis/print?' +e3soos.utils.toParam(technicalReqs, 'requirements.'));
             }
         }
     };

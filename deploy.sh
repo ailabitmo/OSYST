@@ -1,8 +1,8 @@
 #!/bin/bash
 # deploy.sh
 
-HOST=192.168.134.7
-USER=guvnor
+HOST=192.168.134.112
+USER=user
 WAR_NAME="e3soos.war"
 DESTINATION=/opt/jboss-as/standalone/deployments/$WAR_NAME/
 
