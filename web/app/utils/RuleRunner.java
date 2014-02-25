@@ -1,17 +1,22 @@
 package utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import logs.AgendaLogger;
+import com.google.gson.Gson;
+import logs.*;
 import org.drools.command.CommandFactory;
+import org.drools.definition.rule.Rule;
+import org.drools.event.rule.*;
 import org.drools.runtime.ExecutionResults;
 import org.drools.runtime.StatelessKnowledgeSession;
+import org.drools.runtime.rule.Activation;
 import org.drools.runtime.rule.QueryResultsRow;
 import org.drools.runtime.rule.impl.NativeQueryResults;
 import ru.ifmo.ailab.e3soos.facts.Classification;
 import ru.ifmo.ailab.e3soos.facts.Requirements;
 import ru.ifmo.ailab.e3soos.facts.Schema;
 import services.KnowledgeBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class RuleRunner {
 
@@ -46,7 +51,15 @@ public abstract class RuleRunner {
     public static Result synthesisWithLogs(final Classification classification) {
         StatelessKnowledgeSession session = KnowledgeBase.getInstance().createStatelessKnowledgeSession();
         AgendaLogger alogger = new AgendaLogger();
+        WorkingMemoryLogger mlogger = new WorkingMemoryLogger();
         session.addEventListener(alogger);
+        session.addEventListener(mlogger);
+        ArrayList<IWorkflowData> workflowData = new ArrayList<IWorkflowData>();
+//
+        WorkingMemoryEventListenerImpl workingMemoryEventListener = new WorkingMemoryEventListenerImpl(workflowData);
+        AgendaEventListenerImpl agendaEventListener = new AgendaEventListenerImpl(workflowData);
+        session.addEventListener(workingMemoryEventListener);
+        session.addEventListener(agendaEventListener);
 
         List cmds = new ArrayList();
         cmds.add(CommandFactory.newInsert(classification));
@@ -61,9 +74,15 @@ public abstract class RuleRunner {
         for (QueryResultsRow row : schemasResults) {
             schemas.add(((Schema) row.get("schema")).toString());
         }
+
+        Gson gson = new Gson();
+        String rulesJson = gson.toJson(workflowData);
         Result result = new Result();
+        result.setActions(mlogger.getActions());
         result.setLogs(alogger.getFirings());
         result.setData("schemes", schemas);
+        result.setWorkflow(rulesJson);
         return result;
     }
 }
+
